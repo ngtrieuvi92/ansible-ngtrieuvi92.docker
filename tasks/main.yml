@@ -1,0 +1,19 @@
+---
+# tasks file for ngtrieuvi92.docker
+- name: Install docker
+  shell: curl -sSL https://get.docker.com/ | sh
+  become_user: root
+
+- name: Add current user to docker group
+  shell: sudo usermod -aG docker $USER
+  become_user: root
+
+- name: Install docker-compose
+  shell:  curl -L "https://github.com/docker/compose/releases/download/1.8.1/docker-compose-$(uname -s)-$(uname -m)" > /usr/local/bin/docker-compose
+  become_user: root
+  become: true
+
+- name: Apply executable permission for docker-compose binary
+  file: path=/usr/local/bin/docker-compose  mode="u+x,g+x,o+x"
+  become_user: root
+  become: true
